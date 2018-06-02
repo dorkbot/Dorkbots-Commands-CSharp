@@ -1,4 +1,4 @@
-# -Dorkbots-Commands-CSharp
+# Dorkbots-Commands-CSharp
 Dorkbots Commands is a flexible framework for creating and running parallel and serial commands.
 
 This is taking from the example Unity project. You can see the code in the example of a state command -> https://github.com/dorkbot/-Dorkbots-Commands-CSharp/blob/master/Examples/Dorkbots-Commands%20Unity%20Example/Assets/Scripts/CommandsExample/ExampleCommandStateOne.cs
