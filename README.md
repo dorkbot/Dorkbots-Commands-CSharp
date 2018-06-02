@@ -63,3 +63,10 @@ rootCommands.AddCommand(parallelCommands);
 rootCommands.AddCommand(new ExampleCommand().Init(null, "Command 20"));
 
 rootCommands.Excute();
+
+http://www.dorkbots.com/repositories/commands
+
+Author: Dayvid jones
+http://www.dayvid.com
+Copyright (c) Superhero Robot 2018
+http://www.SuperheroRobot.com
