@@ -111,6 +111,10 @@ namespace CommandsExample
 
             // This shows a basic concrete command using other commands.
             rootCommands.AddCommand(new ExampleWrapperCommand().Init());
+
+            // This shows a basic concrete command using a Serial Command. It's probably best to not create child classes of SerialCommands and ParrellelComands to avoid too much polymorphing.
+            // Instead try encapsulating them in a child of a basic Command.
+            rootCommands.AddCommand(new ExampleSerialCommand().Init());
         }
     }
 }
