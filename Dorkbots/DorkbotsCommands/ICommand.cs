@@ -37,13 +37,26 @@ namespace Dorkbots.DorkbotsCommands
     {
 		bool running { get; }
         string name { get; }
+        object data { get; }
 
         /// <summary>
         /// Initializes the command</summary>
-        /// <param name="data">This is of type ICommandData for efficiency, use this param to pass data and references to the command. The param has to implement the interface.</param>
+        /// <param name="data">Use this for data and references for the command.</param>
         /// <param name="name">Optional string name that can be used for finding the command or debugging, etc.</param>
         /// <returns>Returns a reference to this Command.</returns>
-		ICommand Init(ICommandData data = null, string name = "");
+        ICommand Init(object data, string name = "");
+
+        /// <summary>
+        /// Initializes the command</summary>
+        /// <param name="name">Optional string name that can be used for finding the command or debugging, etc.</param>
+        /// <returns>Returns a reference to this Command.</returns>
+        ICommand Init(string name);
+
+        /// <summary>
+        /// Initializes the command</summary>
+        /// <returns>Returns a reference to this Command.</returns>
+        ICommand Init();
+
 		void AddCallback(ICommandCallback commands);
 		void RemoveCallback(ICommandCallback commands);
         void Execute();
