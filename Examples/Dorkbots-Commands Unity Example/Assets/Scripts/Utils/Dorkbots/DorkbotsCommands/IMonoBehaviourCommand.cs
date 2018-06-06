@@ -31,17 +31,27 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
-using Dorkbots.DorkbotsCommands;
+using UnityEngine;
 
-namespace CommandsExample
+namespace Dorkbots.DorkbotsCommands
 {
-    public class ExampleCommandData : ICommandData
+    public interface IMonoBehaviourCommand : ICommand
     {
-        public bool result;
+        MonoBehaviour monoBehaviorObject { set; get; }
 
-        public ExampleCommandData()
-        {
+        /// <summary>
+        /// Initializes the command</summary>
+        /// <param name="monoBehaviorObject">Pass an optional MonoBehavior object to do things like use Coroutines other MonoBehavior things.</param>
+        /// <param name="data">Use this for data and references for the command.</param>
+        /// <param name="name">Optional string name that can be used for finding the command or debugging, etc.</param>
+        /// <returns>Returns a reference to this Command.</returns>
+        ICommand Init(MonoBehaviour monoBehaviorObject, object data = null, string name = "");
 
-        }
+        /// <summary>
+        /// Initializes the command</summary>
+        /// <param name="monoBehaviorObject">Pass an optional MonoBehavior object to do things like use Coroutines other MonoBehavior things.</param>
+        /// <param name="name">Optional string name that can be used for finding the command or debugging, etc.</param>
+        /// <returns>Returns a reference to this Command.</returns>
+        ICommand Init(MonoBehaviour monoBehaviorObject, string name = "");
     }
 }

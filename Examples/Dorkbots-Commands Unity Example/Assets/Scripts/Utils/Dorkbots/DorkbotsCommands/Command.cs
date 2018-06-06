@@ -41,7 +41,7 @@ namespace Dorkbots.DorkbotsCommands
 
         public bool running { get; private set; }
         public string name { get; private set; }
-        public ICommandData data{ get; private set; }
+        public object data{ get; private set; }
 
         public Command()
         {
@@ -50,14 +50,37 @@ namespace Dorkbots.DorkbotsCommands
 
         /// <summary>
         /// Initializes the command</summary>
-        /// <param name="data">This is of type ICommandData for efficiency, use this param to pass data and references to the command. The param has to implement the interface.</param>
+        /// <param name="data">Use this for data and references for the command.</param>
         /// <param name="name">Optional string name that can be used for finding the command or debugging, etc.</param>
         /// <returns>Returns a reference to this Command.</returns>
-        public ICommand Init(ICommandData data = null, string name = "")
+        public ICommand Init(object data, string name = "")
         {
             this.data = data;
             this.name = name;
 
+            InitVirtual();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Initializes the command</summary>
+        /// <param name="name">Optional string name that can be used for finding the command or debugging, etc.</param>
+        /// <returns>Returns a reference to this Command.</returns>
+        public ICommand Init(string name)
+        {
+            this.name = name;
+
+            InitVirtual();
+
+            return this;
+        }
+
+        /// <summary>
+        /// Initializes the command</summary>
+        /// <returns>Returns a reference to this Command.</returns>
+        public ICommand Init()
+        {
             InitVirtual();
 
             return this;

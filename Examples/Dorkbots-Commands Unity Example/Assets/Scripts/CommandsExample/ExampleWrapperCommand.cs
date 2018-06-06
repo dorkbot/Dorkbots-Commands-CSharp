@@ -52,7 +52,7 @@ namespace CommandsExample
             if (command == exampleRandomBoolCommand)
             {
                 ICommand resultCommand;
-                ExampleCommandData resultData = (ExampleCommandData)exampleRandomBoolCommand.data;
+                ExampleDataObject resultData = (ExampleDataObject)exampleRandomBoolCommand.data;
                 if(resultData.result)
                 {
                     resultCommand = new ExampleResultTrueCommand();
@@ -76,7 +76,8 @@ namespace CommandsExample
         protected override void ExecuteVirtual()
         {
             exampleRandomBoolCommand = new ExampleRandomBoolCommand();
-            exampleRandomBoolCommand.Init(new ExampleCommandData());
+            // you could also keep a local reference to the ExampleDataObject.
+            exampleRandomBoolCommand.Init(new ExampleDataObject());
             exampleRandomBoolCommand.AddCallback(this);
             exampleRandomBoolCommand.Execute();
         }

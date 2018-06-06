@@ -51,29 +51,29 @@ namespace CommandsExample
         protected override void SetupCommands()
         {
             // add a single command to the root commands
-            rootCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 1"));
+            rootCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 1"));
 
             // added parallel commands to the root
             ParallelCommands parallelCommands = new ParallelCommands();
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 2"));
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 3"));
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 4"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 2"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 3"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 4"));
             rootCommands.AddCommand(parallelCommands);
 
             parallelCommands = new ParallelCommands();
 
             // add serial commmands to parallel commands then add to root
             SerialCommands serialCommands = new SerialCommands();
-            serialCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 5"));
-            serialCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 6"));
-            serialCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 7"));
+            serialCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 5"));
+            serialCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 6"));
+            serialCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 7"));
             parallelCommands.AddCommand(serialCommands);
 
             // add serial commmands to parallel commands then add to root
             serialCommands = new SerialCommands();
-            serialCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 8"));
-            serialCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 9"));
-            serialCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 10"));
+            serialCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 8"));
+            serialCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 9"));
+            serialCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 10"));
             parallelCommands.AddCommand(serialCommands);
 
             // add serial commmands to parallel commands then add to root
@@ -83,16 +83,16 @@ namespace CommandsExample
 
             // Add parallel commands to serial commands then add to root
             parallelCommands = new ParallelCommands();
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 11"));
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 12"));
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 13"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 11"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 12"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 13"));
             serialCommands.AddCommand(parallelCommands);
 
             // Add parallel commands to serial commands then add to root
             parallelCommands = new ParallelCommands();
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 14"));
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 15"));
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 16"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 14"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 15"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 16"));
             serialCommands.AddCommand(parallelCommands);
 
             // Add parallel commands to serial commands then add to root
@@ -100,9 +100,9 @@ namespace CommandsExample
 
             // add parallel commands to the root
             parallelCommands = new ParallelCommands();
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 17"));
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 18"));
-            parallelCommands.AddCommand(new ExampleCommandMonoBehaviour().Init(monoBehaviourObject, null, "Command 19"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 17"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 18"));
+            parallelCommands.AddCommand(new ExampleMonoBehaviourCommand().Init(monoBehaviourObject, null, "Command 19"));
 
             rootCommands.AddCommand(parallelCommands);
 

@@ -31,34 +31,17 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
-using System.Collections;
 using Dorkbots.DorkbotsCommands;
-using Dorkbots.MonoBehaviorUtils;
-using UnityEngine;
 
 namespace CommandsExample
 {
-    public class ExampleCommandMonoBehaviour : CommandMonoBehaviour, ICommandMonoBehaviour
+    public class ExampleDataObject
     {
-        private Coroutine timerCoroutine;
+        public bool result;
 
-        public ExampleCommandMonoBehaviour()
+        public ExampleDataObject()
         {
 
-        }
-
-        protected override void ExecuteVirtual()
-        {
-            StartStopCoroutine.StartCoroutine(ref timerCoroutine, TimerEnumerator(), monoBehaviorObject);
-        }
-
-        private IEnumerator TimerEnumerator()
-        {
-            yield return new WaitForSeconds(1);
-
-            Debug.Log("<ExampleCommandMonoBehaviour> name = " + name + " Complete!");
-
-            Complete();
         }
     }
 }

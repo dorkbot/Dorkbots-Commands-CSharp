@@ -31,15 +31,34 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
-using Signals;
+using System.Collections;
+using Dorkbots.DorkbotsCommands;
+using Dorkbots.MonoBehaviorUtils;
+using UnityEngine;
 
-namespace Dorkbots.DorkbotsCommands
+namespace CommandsExample
 {
-    /// <summary>
-    /// This is used only as a type for arguments and parameters. Feel free to add an fields, even Signals. It will of course need to be unboxed in the Command.
-    /// </summary>
-	public interface ICommandData
+    public class ExampleMonoBehaviourCommand : MonoBehaviourCommand, IMonoBehaviourCommand
     {
+        private Coroutine timerCoroutine;
 
+        public ExampleMonoBehaviourCommand()
+        {
+
+        }
+
+        protected override void ExecuteVirtual()
+        {
+            StartStopCoroutine.StartCoroutine(ref timerCoroutine, TimerEnumerator(), monoBehaviorObject);
+        }
+
+        private IEnumerator TimerEnumerator()
+        {
+            yield return new WaitForSeconds(1);
+
+            Debug.Log("<ExampleCommandMonoBehaviour> name = " + name + " Complete!");
+
+            Complete();
+        }
     }
 }

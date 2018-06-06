@@ -45,7 +45,7 @@ namespace CommandsExample
 
         protected override void ExecuteVirtual()
         {
-            ExampleCommandData exampleCommandData = (ExampleCommandData)data;
+            ExampleDataObject exampleCommandData = (ExampleDataObject)data;
             exampleCommandData.result = (Random.value > 0.5f);
 
             Debug.Log("<ExampleRandomBoolCommand> Complete!");
