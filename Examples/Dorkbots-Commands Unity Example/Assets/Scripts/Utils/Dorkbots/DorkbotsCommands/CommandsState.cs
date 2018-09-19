@@ -3,7 +3,7 @@
 * http://www.dayvid.com
 * Copyright (c) Superhero Robot 2018
 * http://www.superherorobot.com
-* Manged by Dorkbots
+* Managed by Dorkbots
 * http://www.dorkbots.com/
 * Version: 1
 * 
@@ -38,6 +38,7 @@ namespace Dorkbots.DorkbotsCommands
     public abstract class CommandsState : ICommandsState
     {
         public Signal<ICommandsState> commandsCompletedSignal { get; private set; }
+        public object data { get; protected set; }
 
         protected ICommands rootCommands = new SerialCommands();
 
@@ -46,7 +47,7 @@ namespace Dorkbots.DorkbotsCommands
             
         }
 
-        protected void Init()
+        public void Init()
         {
             commandsCompletedSignal = new Signal<ICommandsState>();
 
@@ -66,8 +67,11 @@ namespace Dorkbots.DorkbotsCommands
 
         public void CommandCompleted(ICommand command)
         {
+            CommandCompletedAbstract();
             commandsCompletedSignal.Dispatch(this);
         }
+
+        protected virtual void CommandCompletedAbstract(){ }
 
         protected abstract void SetupCommands();
 
@@ -84,10 +88,13 @@ namespace Dorkbots.DorkbotsCommands
         {
             DisposeVirtual();
 
-            commandsCompletedSignal.Dispose();
-            commandsCompletedSignal = null;          
-            rootCommands.Dispose();
-            rootCommands = null;
+            if (commandsCompletedSignal != null)
+            {
+                commandsCompletedSignal.Dispose();
+                commandsCompletedSignal = null;
+                rootCommands.Dispose();
+                rootCommands = null;
+            } 
         }
 
         protected virtual void DisposeVirtual() { }

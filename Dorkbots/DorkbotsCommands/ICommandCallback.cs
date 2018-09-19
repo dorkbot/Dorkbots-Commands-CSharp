@@ -3,7 +3,7 @@
 * http://www.dayvid.com
 * Copyright (c) Superhero Robot 2018
 * http://www.superherorobot.com
-* Manged by Dorkbots
+* Managed by Dorkbots
 * http://www.dorkbots.com/
 * Version: 1
 * 

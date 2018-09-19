@@ -3,7 +3,7 @@
 * http://www.dayvid.com
 * Copyright (c) Superhero Robot 2018
 * http://www.superherorobot.com
-* Manged by Dorkbots
+* Managed by Dorkbots
 * http://www.dorkbots.com/
 * Version: 1
 * 
@@ -38,6 +38,8 @@ namespace Dorkbots.DorkbotsCommands
     public interface ICommandsState : ICommandCallback
     {
         Signal<ICommandsState> commandsCompletedSignal { get; }
+        object data { get; }
+        void Init(); 
         void Start();
         void Stop();
         void Dispose();
