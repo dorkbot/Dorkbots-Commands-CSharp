@@ -33,6 +33,7 @@
 */
 namespace Dorkbots.Points
 {
+    [System.Serializable]
     public struct Point
     {
         public int x;

@@ -31,6 +31,7 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Dorkbots.MathTools.Circles
@@ -42,9 +43,9 @@ namespace Dorkbots.MathTools.Circles
 			
 		}
 
-		public static void Place2DCircles(ICircle[] circles, float xMin, float xMax, float yMin, float yMax, float buffer = 0)
+        public static void Place2DCircles(ICircle[] newCircles, ICircle[] oldCircles, float xMin, float xMax, float yMin, float yMax, float buffer = 0, bool place = true)
 		{
-			int currentArrayPosition = 0;
+            int currentArrayPosition = oldCircles.Length;
 			uint attempts = 0;
 			int i = 0;
 			bool continueLoop = true;
@@ -53,6 +54,17 @@ namespace Dorkbots.MathTools.Circles
 			Vector3 newPosition;
 			ICircle currentCircle;
 			ICircle testingCircle;
+            List<ICircle> tempList = new List<ICircle>();
+            tempList.AddRange(oldCircles);
+            tempList.AddRange(newCircles);
+
+            ICircle[] circles = tempList.ToArray();
+
+            // set new position to current position so we can use the newCirclePosition for avoiding overlap
+            for (int j = 0; j < circles.Length; j++)
+            {
+                circles[j].newCirclePosition = circles[i].gameObject.transform.localPosition;
+            }
 
 			// Top loop
 			while(continueLoop)
@@ -66,7 +78,7 @@ namespace Dorkbots.MathTools.Circles
 				{
 					currentCircle = circles[currentArrayPosition];
 
-					newPosition = new Vector3(Random.Range(xMin, xMax), Random.Range(yMin, yMax), 0);
+                    newPosition = new Vector3(Random.Range(xMin, xMax), Random.Range(yMin, yMax), currentCircle.gameObject.transform.position.z);
 					foundPosition = true;
 
 					i = 0;
@@ -75,7 +87,7 @@ namespace Dorkbots.MathTools.Circles
 					while(foundPosition && i < circles.Length)
 					{
 						testingCircle = circles [i];
-						if (currentCircle != testingCircle && Vector3.Distance(testingCircle.gameObject.transform.localPosition, newPosition) < (currentCircle.GetRadius() + testingCircle.GetRadius() + buffer))
+                        if (currentCircle != testingCircle && Vector3.Distance(testingCircle.newCirclePosition, newPosition) < (currentCircle.GetRadius() + testingCircle.GetRadius() + buffer))
 						{
 							// position too close
 							foundPosition = false;
@@ -85,7 +97,8 @@ namespace Dorkbots.MathTools.Circles
 
 					if (foundPosition)
 					{
-						currentCircle.gameObject.transform.localPosition = newPosition;
+                        currentCircle.newCirclePosition = newPosition;
+						if (place) currentCircle.gameObject.transform.localPosition = newPosition;
 						continueLookingForPosition = false;
 					}
 					else
@@ -94,7 +107,8 @@ namespace Dorkbots.MathTools.Circles
 						attempts++;
 						if (attempts >= 5000)
 						{
-							// max attempts made
+                            //Debug.Log("ax attempts made!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            // max attempts made
 							continueLookingForPosition = false;
 							continueLoop = false;
 							break;
@@ -111,6 +125,6 @@ namespace Dorkbots.MathTools.Circles
 					break;
 				}
 			}
-		}
+        }
 	}
 }

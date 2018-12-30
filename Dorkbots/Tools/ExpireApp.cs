@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Author: Dayvid jones
 * http://www.dayvid.com
 * Copyright (c) Superhero Robot 2018
@@ -31,14 +31,27 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
+using System;
 using UnityEngine;
 
-namespace Dorkbots.MathTools.Circles
+namespace Dorkbots.Tools
 {
-	public interface ICircle
-	{
-		float GetRadius ();
-		GameObject gameObject { get; }
-        Vector2 newCirclePosition { get; set; }
-	}
+    public class ExpireApp : MonoBehaviour
+    {
+        [SerializeField] private String startDateString = "month-day-year";
+
+        private void Awake()
+        {
+            // locks
+            DateTime startDate = DateTime.Parse(startDateString);
+            DateTime nowDate = DateTime.Now;
+            TimeSpan elapsed = nowDate.Subtract(startDate);
+            double daysAgo = elapsed.TotalDays;
+            if (daysAgo > 2)
+            {
+                Application.Quit();
+                throw new Exception();
+            }
+        }
+    }
 }
