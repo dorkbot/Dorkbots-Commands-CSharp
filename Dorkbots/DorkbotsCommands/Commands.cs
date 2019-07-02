@@ -42,12 +42,13 @@ namespace Dorkbots.DorkbotsCommands
         protected uint currentCommandIndex = 0;
         protected uint startIndex = 0;
 
-        public int length { get; private set; }
+        public int length { get { return commands.Count; } }
 
         public Commands() : base() { }
 
         // ABSTRACT METHODS (must be overridden in a subclass)
         protected abstract void ExecuteCommand();
+        protected abstract void UpdateCommand();
         public abstract void CommandCompleted(ICommand command);
 
         public ICommand AddCommand(ICommand command, int position = -1)
@@ -151,9 +152,29 @@ namespace Dorkbots.DorkbotsCommands
             }
         }
 
-        protected void CommandsCompleted()
+        protected override void UpdateVirtual()
         {
-            commandCallback.CommandCompleted(this);
+            UpdateCommand();
+        }
+
+        sealed override protected void ResetVirtual()
+        {
+            currentCommandIndex = 0;
+            startIndex = 0;
+            for (int i = 0; i < commands.Count; i++)
+            {
+                commands[i].Reset();
+            }
+        }
+
+        protected override void InitVirtual()
+        {
+            base.InitVirtual();
+        }
+
+        protected virtual void CommandsCompleted()
+        {
+            this.Complete();
         }
 
         protected override void StopVirtual(bool complete = false)

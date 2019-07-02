@@ -37,18 +37,21 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using UnityEngine.EventSystems;
+using Dorkbots.MonoBehaviorUtils;
 
 namespace Dorkbots.Tools
 {
     public class CheatPatternComponent : MonoBehaviour 
     {
+        [SerializeField] private float timeBeforeDestroy = 0;
         [SerializeField] private float timeBetweenClicks = 2;
         [SerializeField] private Button[] buttons;
 
         public Signal cheatActivatedSignal{ get; private set; }
 
         private bool[] buttonStates;
-        private IEnumerator cheatPatternCoroutine;
+        private Coroutine cheatPatternCoroutine;
+        private Coroutine timerCoroutine;
 
         // Use this for initialization
         void Awake () 
@@ -86,18 +89,27 @@ namespace Dorkbots.Tools
                     }
                 }
             }
+
+            if (timeBeforeDestroy > 0) StartStopCoroutine.StartCoroutine(ref timerCoroutine, TimerEnumerator(), this);
         }
 
         void OnDestroy()
         {
-            cheatActivatedSignal.Dispose();
+            if (cheatActivatedSignal != null)
+            {
+                cheatActivatedSignal.Dispose();
+                cheatActivatedSignal = null;
+            }
+
+            StartStopCoroutine.StopCoroutine(ref timerCoroutine, this);
+            StartStopCoroutine.StopCoroutine(ref cheatPatternCoroutine, this);
         }
 
-        private void ResetCheatPatternCoroutine()
+        private IEnumerator TimerEnumerator()
         {
-            if (cheatPatternCoroutine != null) StopCoroutine(cheatPatternCoroutine);
-            cheatPatternCoroutine = CheatPatternCoroutine();
-            StartCoroutine(cheatPatternCoroutine);
+            yield return new WaitForSeconds(timeBeforeDestroy);
+
+            Destroy(this);
         }
 
         private IEnumerator CheatPatternCoroutine()
@@ -132,7 +144,7 @@ namespace Dorkbots.Tools
             if (CheckCheatButtons(position - 1))
             {
                 buttonStates[position] = true;
-                ResetCheatPatternCoroutine();
+                StartStopCoroutine.StartCoroutine(ref cheatPatternCoroutine, CheatPatternCoroutine(), this);
 
                 return true;
             }
@@ -162,7 +174,7 @@ namespace Dorkbots.Tools
             if (!CheckCheatButtons(buttonStates.Length - 1))
             {
                 buttonStates[0] = true;
-                ResetCheatPatternCoroutine();
+                StartStopCoroutine.StartCoroutine(ref cheatPatternCoroutine, CheatPatternCoroutine(), this);
             }
             else
             {
@@ -173,8 +185,7 @@ namespace Dorkbots.Tools
         private void MiddleButtonClicked()
         {
             Button button = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-            int position = Array.IndexOf(buttons, button);
-            SetCheatButton(position);
+            SetCheatButton(Array.IndexOf(buttons, button));
         }
 
         private void LastButtonClicked()

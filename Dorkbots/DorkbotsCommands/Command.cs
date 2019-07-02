@@ -103,7 +103,7 @@ namespace Dorkbots.DorkbotsCommands
             }
             else
             {
-                throw new Exception("A ICommandHandler that doen't contain this ICommand is attempting to remove it!!!!!!");
+                throw new Exception("A ICommandHandler that doesn't contain this ICommand is attempting to remove it!!!!!!");
             }
         }
 
@@ -115,6 +115,31 @@ namespace Dorkbots.DorkbotsCommands
         }
 
         protected abstract void ExecuteVirtual();
+
+        /// <summary>
+        /// Use this method to tell the Command to update. Not all commands need to update.</summary>
+        public virtual void Update()
+        {
+            if (running)
+            {
+                UpdateVirtual();
+            }
+            else
+            {
+                // causing race condition?
+                //throw new Exception("Command is not running! Either Excute wasn't called or Stop was called or the Command has completed.");
+            }
+        }
+
+        protected virtual void UpdateVirtual() { }
+
+        public void Reset()
+        {
+            Stop();
+            ResetVirtual();
+        }
+
+        protected virtual void ResetVirtual() { }
 
         public void Stop(bool complete = false)
         {
@@ -135,6 +160,7 @@ namespace Dorkbots.DorkbotsCommands
 
         protected void Complete()
         {
+            running = false;
             commandCallback.CommandCompleted(this);
         }
 

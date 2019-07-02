@@ -59,8 +59,16 @@ namespace Dorkbots.DorkbotsCommands
 
 		void AddCallback(ICommandCallback commands);
 		void RemoveCallback(ICommandCallback commands);
+        /// <summary>
+        /// Starts the Commands process.</summary>
         void Execute();
-		void Stop(bool complete = false);
+        /// <summary>
+        /// This is optional and can only be called after Excute has been called.</summary>
+        void Update();
+        /// <summary>
+        /// Stops and resets the command. This is optional.</summary>
+        void Reset();
+        void Stop(bool complete = false);
 		void Dispose();
     }
 }

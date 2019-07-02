@@ -35,17 +35,20 @@ namespace Dorkbots.DorkbotsCommands
 {
 	public class SerialCommands : Commands, ICommands
     {
+        private ICommand currentCommand;
+
 		public SerialCommands() : base()
         {
 
         }
 
-		protected override void ExecuteCommand()
+		sealed protected override void ExecuteCommand()
         {
-			commands[(int)currentCommandIndex].Execute();
+            currentCommand = commands[(int)currentCommandIndex];
+            currentCommand.Execute();
         }
 
-		public override void CommandCompleted(ICommand command)
+		sealed public override void CommandCompleted(ICommand command)
         {
             currentCommandIndex++;
             
@@ -59,5 +62,14 @@ namespace Dorkbots.DorkbotsCommands
             }
         }
 
+        sealed protected override void UpdateCommand()
+        {
+            currentCommand.Update();
+        }
+
+        protected override void DisposeVirtual()
+        {
+            currentCommand = null;
+        }
     }
 }

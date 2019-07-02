@@ -39,6 +39,7 @@ namespace Dorkbots.DorkbotsCommands
     {
         public Signal<ICommandsState> commandsCompletedSignal { get; private set; }
         public object data { get; protected set; }
+        public bool running { get; private set; }
 
         protected ICommands rootCommands = new SerialCommands();
 
@@ -59,24 +60,48 @@ namespace Dorkbots.DorkbotsCommands
         public void Start()
         {
             StartAbstract();
-
             rootCommands.Execute();
+
+            running = true;
         }
 
         protected virtual void StartAbstract(){}
 
+        public void Update()
+        {
+            if (running)
+            {
+                UpdateAbstract();
+                rootCommands.Update();
+            }
+        }
+
+        protected virtual void UpdateAbstract() { }
+
+        public void Reset()
+        {
+            rootCommands.Reset();
+            ResetVirtual();
+        }
+
+        protected virtual void ResetVirtual() { }
+
+
         public void CommandCompleted(ICommand command)
         {
-            CommandCompletedAbstract();
+            running = false;
+            CommandCompletedVirtual();
             commandsCompletedSignal.Dispatch(this);
         }
 
-        protected virtual void CommandCompletedAbstract(){ }
+        protected virtual void CommandCompletedVirtual(){ }
 
         protected abstract void SetupCommands();
 
         public void Stop()
         {
+            running = false;
+
             rootCommands.Stop();
 
             StopVirtual();

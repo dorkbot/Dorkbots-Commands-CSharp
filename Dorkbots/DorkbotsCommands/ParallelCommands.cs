@@ -31,31 +31,53 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 * THE SOFTWARE.
 */
+using System.Collections.Generic;
+
 namespace Dorkbots.DorkbotsCommands
 {
     public class ParallelCommands : Commands, ICommands
     {
+        private List<ICommand> runningCommands = new List<ICommand>();
+
         public ParallelCommands() : base()
         {
 
         }
 
-        protected override void ExecuteCommand()
+        sealed protected override void ExecuteCommand()
         {
+            runningCommands = new List<ICommand>(commands);
             for (int i = 0; i < commands.Count; i++)
             {
                 commands[i].Execute();
             }
         }
 
-        public override void CommandCompleted(ICommand command)
+        sealed public override void CommandCompleted(ICommand command)
         {
+            runningCommands.Remove(command);
+
             currentCommandIndex++;
 
             if (currentCommandIndex >= commands.Count)
             {
                 CommandsCompleted();
             }
+        }
+
+        sealed protected override void UpdateCommand()
+        {
+            for (int i = 0; i < runningCommands.Count; i++)
+            {
+                runningCommands[i].Update();
+            }
+        }
+
+        protected override void DisposeVirtual()
+        {
+            runningCommands.Clear();
+
+            base.DisposeVirtual();
         }
     }
 }

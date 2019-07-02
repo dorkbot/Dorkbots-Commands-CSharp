@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Author: Dayvid jones
 * http://www.dayvid.com
 * Copyright (c) Superhero Robot 2018

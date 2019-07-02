@@ -32,23 +32,26 @@
 * THE SOFTWARE.
 */
 using Signals;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
-namespace Dorkbots.DorkbotsCommands
+namespace Dorkbots.UI.DragAndDrop
 {
-    public interface ICommandsState : ICommandCallback
+    // This class is used for objects that can accept dropping dragging objects, like for a trash can as an example.
+    public class SimpleDropZone : MonoBehaviour, IDropHandler
     {
-        Signal<ICommandsState> commandsCompletedSignal { get; }
-        object data { get; }
-        bool running { get; }
-        void Init(); 
-        void Start();
-        /// <summary>
-        /// This is optional and can only be called after Start has been called.</summary>
-        void Update();
-        /// <summary>
-        /// Stops and resets the command. This is optional.</summary>
-        void Reset();
-        void Stop();
-        void Dispose();
+        public Signal<Draggable, SimpleDropZone> draggableDropppedSignal { get; private set; }
+
+        private void Awake()
+        {
+            draggableDropppedSignal = new Signal<Draggable, SimpleDropZone>();
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
+
+            if (draggable != null) draggableDropppedSignal.Dispatch(draggable, this);
+        }
     }
 }
